@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="alert alert-info" *ngIf="employeeData.length == 0">No employees to display!</div>
+
+    <div  *ngIf="employeeData.length > 0">
+        <div class="mt-4 row" style="text-align: center;font-family: Franklin Gothic Medium, Arial Narrow ,
+    Arial, sans-serif;color: #3c4858;" >
+            <div class="col-lg-1 col-sm-1">Picture</div>
+            <div class="col-lg-3 col-sm-3">Name</div>
+            <div class="col-lg-3 col-sm-3">Role</div>
+            <div class="col-lg-3 col-sm-3">Company</div>
+            <div class="col-lg-2 col-sm-2">Action</div>
+        </div>
+        <div class="container-fluid" style="text-align: center;"
+            style="background-color: white;border-radius: 15px;box-shadow: 0px 0px 23px -1px rgba(0,0,0,0.69);">
+            <span *ngFor="let item of employeeData; let i = index;">
+                <div class="mt-4 row">
+                    <div class="col-lg-1 col-sm-1 mt-2">
+                        <ngx-avatar name={{item.empName}}></ngx-avatar>
+                    </div>
+                    <div class="col-lg-3 col-sm-3 mt-4">{{item.empName}}</div>
+                    <div class="col-lg-3 col-sm-3 mt-4">{{item.designation}}</div>
+                    <div class="col-lg-3 col-sm-3 mt-4">{{item.company}}</div>
+                    <div class="col-lg-2 col-sm-2 mt-4">
+                        <i class="fa fa-eye" style="color:teal;cursor: pointer;" title="View Profile"
+                            (click)="viewEmployee(item.empId)"></i>
+                        &nbsp;
+                        <i class="fa fa-pencil" style="color:teal;cursor: pointer;" title="Edit Employee"
+                            (click)="editEmployee(item.empId)"></i> &nbsp;
+                        <i class="fa fa-close" style="color:teal;cursor: pointer;" title="Delete Employee"
+                            (click)="confirmDeleteEmployee(item.empId)"></i> &nbsp;
+                    </div>
+                </div>
+                <hr>
+            </span>
+        </div>
+    </div>
+</div>

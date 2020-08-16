@@ -1,10 +1,28 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   title = 'employee-management';
+  itemList = [
+    {
+      itemIcon: 'fa fa-user-plus',
+      itemLabel: 'Onboard',
+      itemPath: 'employee/create',
+    },
+    {
+      itemIcon: '	fa fa-bars',
+      itemLabel: 'Members',
+      itemPath: 'employee/list',
+    },
+  ];
+  constructor(private router: Router) {}
+
+  selectedItem(event) {
+    this.router.navigate([event.itemPath]);
+  }
 }

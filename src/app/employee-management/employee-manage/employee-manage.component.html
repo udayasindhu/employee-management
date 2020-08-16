@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="container-fluid">
+        <form [formGroup]="employeeForm">
+            <div class="mt-5 row">
+                <h6>Employee Details</h6>
+            </div>
+            <div class="row mt-3">
+                <div class="mt-2 col-lg-6 col-sm-6">
+                    <input type="text" formControlName="empName" placeholder="Enter full name" required>
+                    <div class="error"
+                        *ngIf="submitted && formValidation.empName.errors && formValidation.empName.errors.required">
+                        Employee name is required</div>
+
+                    <input type="text" formControlName="company" placeholder="Enter Company name" required>
+                    <div class="error"
+                        *ngIf="submitted && formValidation.company.errors && formValidation.company.errors.required">
+                        company name is required</div>
+                    <input type="text" formControlName="email" placeholder="Enter email" required>
+                    <div class="error"
+                        *ngIf="submitted && formValidation.email.errors && formValidation.email.errors.email">
+                        Enter valid email address</div>
+                    <div class="error"
+                        *ngIf="submitted && formValidation.email.errors && formValidation.email.errors.required">
+                        Email address is required</div>
+                </div>
+
+                <div class="mt-2 col-lg-6 col-sm-6">
+                    <input formControlName="phone" type="number" placeholder="Enter mobile number" required
+                        pattern="[0-9]{10}" maxlength="10">
+                    <div class="error"
+                        *ngIf="submitted && formValidation.phone.errors && formValidation.phone.errors.required">
+                        Phone number is required</div>
+                    <div class="error"
+                        *ngIf="submitted && formValidation.phone.errors && formValidation.phone.errors.pattern">
+                        Phone number contains 10 digits</div>
+                    <input type="text" formControlName="designation" placeholder="Enter the designation" required>
+                    <div class="error"
+                        *ngIf="submitted && formValidation.designation.errors && formValidation.designation.errors.required">
+                        Designation is required</div>
+                    <input formControlName="empId" placeholder="Enter employee Id" required maxlength="6" type="number"
+                        pattern="[0-9]{6}">
+                    <div class="error"
+                        *ngIf="submitted && formValidation.empId.errors && formValidation.empId.errors.required">
+                        Employee Id is required</div>
+                    <div class="error"
+                        *ngIf="submitted && formValidation.empId.errors && formValidation.empId.errors.pattern">
+                        Employee Id should contain 6 digits</div>
+                    <div class="error"
+                        *ngIf="submitted && formValidation.empId.errors && formValidation.empId.errors.duplicate">
+                        Employee Id already exits</div>
+                </div>
+            </div>
+            <button type="reset" class="btn mt-5" id="reset" (click)="formReset()">Reset</button> &nbsp;
+            <button type="submit" class="btn mt-5" id="submit" (click)="saveEmployee()">Submit</button>
+        </form>
+    </div>
+</div>
