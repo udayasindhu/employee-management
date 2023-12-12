@@ -3,11 +3,14 @@
   position: absolute;
   opacity: 0.93;
   width: 150px;
-  background-color: #eee;
-  color: #3c4858;
+  color: black;
   font: 15px;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   box-shadow: 10px 0px 25px -5px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .sidenav a {
@@ -32,7 +35,7 @@
 .main {
   padding-left: 150px;
   text-align: center;
-  float: inline-end;
+  /* float: inline-end; */
 }
 
 header {
@@ -42,7 +45,7 @@ header {
   text-align: center;
 }
 
-header > span {
+header>span {
   line-height: 65px;
   margin-left: 4%;
   font-size: 30px;
@@ -53,10 +56,12 @@ header > span {
   .sidenav {
     width: 15%;
   }
-  .sidenav > a {
+
+  .sidenav>a {
     visibility: hidden;
   }
-  .sidenav > a > i {
+
+  .sidenav>a>i {
     visibility: visible;
   }
 }

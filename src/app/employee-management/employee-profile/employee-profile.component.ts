@@ -1,21 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { EmployeeManagementService } from '../employee-management.service';
+import { Router } from '@angular/router';
+import { Employee } from 'src/app/models/employee';
 
 @Component({
   selector: 'app-employee-profile',
   templateUrl: './employee-profile.component.html',
-  styleUrls: ['./employee-profile.component.css'],
+  styleUrls: ['./employee-profile.component.css']
 })
 export class EmployeeProfileComponent implements OnInit {
-  employeeData: any;
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private employeeService: EmployeeManagementService
-  ) {}
+
+  employee: Employee;
+  email: string;
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
-    let employeeId = this.activatedRoute.snapshot.paramMap.get('id');
-    this.employeeData = this.employeeService.getEmployeeDetails(employeeId);
+    if (history.state.user) {
+      this.employee = history.state.user;
+      this.email = this.employee.email.split('@')[0];
+    }
   }
+
+  editEmployee() {
+    this.router.navigate(['employee/create'], { queryParams: { action: 'edit' }, state: { user: this.employee } });
+  }
+
 }

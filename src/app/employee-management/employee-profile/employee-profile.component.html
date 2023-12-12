@@ -1,29 +1,23 @@
-<div class="col-md-6 col-sm-6 col-lg-6 mt-5" style="margin-left: 25%;">
-    <div class="card card-profile">
-        <div class="card-header header" style="background: linear-gradient(to top,rgb(84, 172, 172), teal);
-        height: 100px; ">
-            <div class="avatar" style="text-align: center;margin-left:45%">
-                <ngx-avatar class="img" bgColor="teal" fgColor="white" size="60" name="{{employeeData.empName}}">
-                </ngx-avatar>
-            </div>
+<div class="card" style="text-align: center;background-color: white;border-radius: 15px;box-shadow: 0px 0px 23px -1px rgba(0,0,0,0.69);">
+    <div class="img">
+        <ngx-avatar class="avatar" name={{employee.empName}} size="100"></ngx-avatar>
+    </div>
+    <div class="infos">
+        <div class="name">
+            <h2>{{employee.empName}}</h2>
+            <h4>@{{employee.email}}</h4>
         </div>
-        <div class="card-body" style="margin-top: 25px;">
-            <h4 class="card-title text-center">{{employeeData.empName | titlecase}}</h4>
-            <h6 class="card-category text-center">
-                <i class="fa fa-laptop" style="color: teal; margin-right: 10px;"></i>
-                {{employeeData.designation | titlecase}}</h6>
-            <h6 class="card-category text-center">
-                <i class="fa fa-building-o" aria-hidden="true" style="color: teal; margin-right: 10px;"></i>
-                {{employeeData.company | titlecase}}</h6>
-            <h6 class="card-category text-center">
-                <i class="fa fa-tags" style="color: teal; margin-right: 10px;"></i>
-                {{employeeData.empId}}</h6>
-            <h6 class="card-category text-center">
-                <i class="fa fa-envelope" aria-hidden="true" style="color: teal; margin-right: 10px;"></i>
-                {{employeeData.email | titlecase}}</h6>
-            <h6 class="card-category text-center">
-                <i class="fa fa-phone" aria-hidden="true" style="color: teal; margin-right: 10px;"></i>
-                {{employeeData.phone}}</h6>
+        <p class="text">
+            Works as {{employee.designation}} at {{employee.company}}
+        </p>
+        <ul class="stats">
+            <li>
+                <h3>{{employee.phone}}</h3>
+                <h4>Phone</h4>
+            </li>
+        </ul>
+        <div class="links">
+            <button class="edit" (click)="editEmployee()">Edit</button>
         </div>
     </div>
 </div>

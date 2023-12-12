@@ -19,11 +19,7 @@ const routes: Routes = [
     component: EmployeeManageComponent,
   },
   {
-    path: 'edit/:id',
-    component: EmployeeManageComponent,
-  },
-  {
-    path: 'profile/:id',
+    path: 'profile',
     component: EmployeeProfileComponent,
   },
 ];

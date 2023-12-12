@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployeeManagementService } from '../employee-management.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Employee } from 'src/app/models/employee';
 
 @Component({
   selector: 'app-employee-manage',
@@ -10,87 +11,64 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./employee-manage.component.css'],
 })
 export class EmployeeManageComponent implements OnInit {
-  isEdit: boolean;
-  employeeForm: FormGroup;
-  submitted: boolean = false;
-  id: string;
-
-  empFormFields: any = {
-    empName: [''],
-    company: [''],
-    email: ['', [Validators.email]],
-    phone: [''],
-    designation: [''],
-  };
-
   constructor(
     private employeeService: EmployeeManagementService,
     private fb: FormBuilder,
     private router: Router,
     private toastr: ToastrService,
-    private activatedRouter: ActivatedRoute
-  ) {}
+  ) { }
+  employeeForm: FormGroup;
+  submitted: boolean = false;
+  isEdit: boolean = false;
 
   ngOnInit(): void {
-    if (this.router.url.indexOf('create') > -1) {
-      this.empFormFields.empId = [''];
-      this.employeeForm = this.fb.group(this.empFormFields);
-    } else {
-      this.empFormFields.empId = [{ value: '', disabled: true }];
-      this.employeeForm = this.fb.group(this.empFormFields);
+    this.initForm();
+    this.loadFormData();
+  }
 
-      this.id = this.activatedRouter.snapshot.paramMap.get('id');
-      const employeePatch = this.employeeService.getEmployeeDetails(this.id);
-      this.employeeForm.patchValue({
-        empName: employeePatch['empName'],
-        company: employeePatch['company'],
-        email: employeePatch['email'],
-        phone: employeePatch['phone'],
-        designation: employeePatch['designation'],
-        empId: employeePatch['empId'],
-      });
+  loadFormData() {
+    let formData = history.state.user;
+    if (formData) {
+      this.employeeForm.patchValue(formData);
+      this.isEdit = true;
     }
   }
 
-  saveEmployee() {
+  initForm() {
+    this.employeeForm = this.fb.group({
+      empName: new FormControl(),
+      company: new FormControl(),
+      email: new FormControl('', Validators.email),
+      phone: new FormControl(),
+      designation: new FormControl(),
+      empId: new FormControl(),
+    });
+  }
+
+  createEmployee() {
     this.submitted = true;
-    let formValue = this.employeeForm.value;
-    let employeeData = {
-      empName: formValue.empName,
-      company: formValue.company,
-      email: formValue.email,
-      phone: formValue.phone,
-      designation: formValue.designation,
-      empId: formValue.empId,
-    };
-    if (this.employeeForm.invalid) {
+    let statusCode = 0;
+    if (!this.employeeForm.invalid) {
+      const employeeData: Employee = {
+        empName: this.employeeForm.value.empName,
+        company: this.employeeForm.value.company,
+        email: this.employeeForm.value.email,
+        phone: this.employeeForm.value.phone,
+        designation: this.employeeForm.value.designation,
+        empId: this.employeeForm.value.empId,
+      };
+      statusCode = this.isEdit
+        ? this.employeeService.updateEmployeeDetails(employeeData)
+        : this.employeeService.createEmployee(employeeData);
+      if (statusCode === 201) {
+        this.toastr.success('Employee created successfully');
+      } else {
+        this.toastr.error('Employee onboared already');
+      }
+      this.router.navigate(['employee/list']);
+    } else {
       return;
     }
-    let empData = this.employeeService.getAllEmployees();
-    let employee = empData.filter((data) => data.empId == formValue.empId)[0];
-    if (!employee) {
-      this.employeeForm.controls.empId.setErrors({ duplicate: false });
-      if (this.id) {
-        employeeData.empId = this.id;
-        this.updateEmployee(employeeData, this.id);
-      } else {
-        this.createEmployee(employeeData);
-      }
-    } else {
-      this.employeeForm.controls.empId.setErrors({ duplicate: true });
-    }
-  }
-
-  updateEmployee(employeeData, id) {
-    if (this.employeeService.updateEmployeeDetails(employeeData, id) == 201)
-      this.toastr.success('Employee details updated successfuly');
-    this.router.navigate(['employee/list']);
-  }
-
-  createEmployee(employeeData) {
-    if (this.employeeService.createEmployee(employeeData) == 201)
-      this.toastr.success('Employee created successfuly');
-    this.router.navigate(['employee/list']);
   }
 
   formReset() {
@@ -100,4 +78,5 @@ export class EmployeeManageComponent implements OnInit {
   get formValidation() {
     return this.employeeForm.controls;
   }
+
 }

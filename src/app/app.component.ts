@@ -16,11 +16,11 @@ export class AppComponent {
     },
     {
       itemIcon: '	fa fa-bars',
-      itemLabel: 'Members',
+      itemLabel: 'Employees',
       itemPath: 'employee/list',
     },
   ];
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   selectedItem(event) {
     this.router.navigate([event.itemPath]);
